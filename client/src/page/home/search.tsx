@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, Button, MenuItem, Select, InputLabel, FormControl, Grid, Box, ListItem, ListItemText, Typography, ListItemSecondaryAction } from '@mui/material';
-import { useCategoriesQuery, useLazySearchTasksQuery } from '../../features/slices/task.slice';
+import { TextField, Button, MenuItem, Select, InputLabel, FormControl, Grid, Box, ListItem, ListItemText, Typography } from '@mui/material';
+import { useLazySearchTasksQuery } from '../../features/slices/task.slice';
 import { StatusEnum } from '../../features/types/task.type';
 
 const SearchComponent = () => {
