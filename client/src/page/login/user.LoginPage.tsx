@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../features/slices/user.slice";
 import { setAccessToken } from "../../features/apiSlice";
+import { Button } from "@mui/material";
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -41,6 +42,7 @@ const UserLoginPage = () => {
                 <h1 className="text-white text-8xl font-bold">login</h1>
             </div>
 
+            <Button onClick={() => navigate("/signup")} variant="contained">Sign Up</Button>
             <div className="flex flex-col items-center p-6 gap-8 w-1/2 border-2 justify-center">
                 <h2 className="text-6xl font-bold">Login</h2>
                 <form onSubmit={handleSubmit(onSubmit as any)} className="flex flex-col gap-3 w-full">

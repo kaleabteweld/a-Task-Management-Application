@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSignUpMutation } from "../../features/slices/user.slice";
 import { IUserSignUpFrom } from "../../features/types/user.type";
+import { setAccessToken } from "../../features/apiSlice";
 
 const signUpSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -25,7 +26,8 @@ const UserSignUpPage = () => {
 
     const onSubmit = async (data: IUserSignUpFrom) => {
         try {
-            await signUp(data).unwrap();
+            const _data = await signUp(data).unwrap();
+            setAccessToken((_data as any).accessToken);
             navigate("/");
         } catch (err: any) {
             setErrorMsg(err.data.error.msg);

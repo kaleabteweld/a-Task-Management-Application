@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Typography, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from '@mui/material';
-import { Add, Delete, Edit } from '@mui/icons-material';
+import { Add, Delete, Edit, Logout } from '@mui/icons-material';
 import { ITask, PriorityEnum, StatusEnum } from '../../features/types/task.type';
 import { useCategoriesQuery, useRemoveTaskMutation, useSearchTasksQuery, useUpdateTaskMutation } from '../../features/slices/task.slice';
 import { UserIsLoggedIn } from '../../hook/user.hook';
 import CreateDialog from './CreateDialog';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
+import { useLogoutMutation } from '../../features/slices/user.slice';
+import { setAccessToken } from '../../features/apiSlice';
 
 export default function Home() {
 
     UserIsLoggedIn();
-    const { data: tasks } = useSearchTasksQuery({ page: 1, searchParams: {} });
+    const { data: tasks } = useSearchTasksQuery({ page: 1, searchParams: {} }, { refetchOnMountOrArgChange: true });
     const [remove] = useRemoveTaskMutation();
 
     const [open, setOpen] = useState(false);
     const [CreateOpen, setCreateOpen] = useState(false);
     const [updatedTask, setUpdatedTask] = useState<ITask | null>(null);
+    const [logout] = useLogoutMutation();
 
     const navigate = useNavigate()
 
@@ -44,6 +47,13 @@ export default function Home() {
 
             <IconButton edge="end" aria-label="delete" onClick={() => setCreateOpen(true)}>
                 <Add />
+            </IconButton>
+
+            <IconButton onClick={() => {
+                logout();
+                setAccessToken('');
+            }} color="inherit">
+                <Logout />
             </IconButton>
 
             {tasks && tasks.map((task: ITask) => (

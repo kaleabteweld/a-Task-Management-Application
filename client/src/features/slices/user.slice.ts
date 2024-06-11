@@ -13,6 +13,7 @@ const userApiSlice = apiSlice.injectEndpoints({
                     password
                 }
             }),
+            invalidatesTags: ['users']
         }),
 
         signUp: builder.mutation<IUser, IUserLogInFrom>({
@@ -21,6 +22,8 @@ const userApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body
             }),
+            invalidatesTags: ['users']
+
         }),
 
         user: builder.query<IUser, void>({
@@ -31,13 +34,18 @@ const userApiSlice = apiSlice.injectEndpoints({
                     authorization: `Bearer ${(getAccessToken())}`
                 }
             }),
+            providesTags: ['users']
         }),
 
         logout: builder.mutation<void, void>({
             query: () => ({
-                url: 'public/auth/user/logout',
-                method: 'POST',
+                url: 'private/auth/user/logOut',
+                method: 'DELETE',
+                headers: {
+                    authorization: `Bearer ${(getAccessToken())}`
+                }
             }),
+            invalidatesTags: ['users', 'tasks']
         }),
     })
 })
