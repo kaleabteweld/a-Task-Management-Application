@@ -8,15 +8,17 @@ A brief description of what this project does and who it's for
 
 # Backend Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables to your .env.development file
 
-`DATABASE_URL`: mongodb database url 
+`DATABASE_URL`: MongoDB database URL 
 
-`APP_PORT`: app prot (5000)
+`REDIS_URL`:  redis
+
+`APP_PORT`: app port (5000)
 
 # Client Variables
 
-`VITE_API_URL`: base url for the backend (http://localhost:5000)
+`VITE_API_URL`: base URL for the backend (http://localhost:5000)
 ## Run Locally
 
 Clone the project
