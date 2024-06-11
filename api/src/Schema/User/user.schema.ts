@@ -6,9 +6,9 @@ import { checkPassword, encryptPassword, getByEmail, getById, removeByID, update
 
 export const userSchema = new mongoose.Schema<IUser, IUserModel, IUserMethods>({
 
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    userName: { type: String, required: true },
+    userName: { type: String, required: true, unique: true },
     tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Task' }],
 
 }, {
