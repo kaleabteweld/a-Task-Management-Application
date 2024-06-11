@@ -30,7 +30,7 @@
   },
   "scripts": {
     "dev": "set NODE_ENV=development && nodemon src/server.ts",
-    "build": "set NODE_ENV=production && npm i && tsc",
+    "build": "set NODE_ENV=production && yarn && tsc",
     "start": "set NODE_ENV=production && node dist/server.js"
   },
   "dependencies": {

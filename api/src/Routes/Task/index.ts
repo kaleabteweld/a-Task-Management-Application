@@ -1,4 +1,4 @@
 import UserController from "./task.controller";
-import { publicUserRouter, privateUserRouter } from "./router";
+import { privateTaskRouter, publicTaskRouter } from "./router";
 
-export { publicUserRouter, privateUserRouter, UserController }
+export { publicTaskRouter, privateTaskRouter, UserController }
