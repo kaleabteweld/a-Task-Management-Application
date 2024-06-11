@@ -25,7 +25,7 @@ const UserLoginPage = () => {
     const onSubmit = async (data: { email: string; password: string }) => {
         try {
             await logIn(data).unwrap();
-            navigate("/home");
+            navigate("/");
         } catch (err: any) {
             setErrorMsg(err.data.error.msg);
             console.error("Failed to log in:", err);

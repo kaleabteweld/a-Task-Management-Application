@@ -12,6 +12,7 @@ const userApiSlice = apiSlice.injectEndpoints({
                     email,
                     password
                 }
+
             }),
 
         }),

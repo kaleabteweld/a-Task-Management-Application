@@ -68,14 +68,14 @@ export default function Home() {
     )
 }
 
-function UpdateDialog({ task, open, handleClose }: { handleClose: () => void, open: boolean, task?: ITask }) {
+function UpdateDialog({ task, open, handleClose }: { handleClose: () => void, open: boolean, task?: ITask | null | undefined }) {
 
     const { data: categories } = useCategoriesQuery({ limit: 10, skip: 0 });
     const [updateTask] = useUpdateTaskMutation();
     const [updatedTask, setUpdatedTask] = React.useState<ITask | null | undefined>(task);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setUpdatedTask({ ...updatedTask, [name]: value });
+        setUpdatedTask({ ...updatedTask, [name]: value as any } as any);
     }
 
     const handleUpdate = async () => {
