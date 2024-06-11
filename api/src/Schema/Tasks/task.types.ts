@@ -12,6 +12,11 @@ export enum StatusEnum {
     completed = 'completed',
 }
 
+export interface ICategories extends Document {
+    name: string
+    tasks: mongoose.Schema.Types.ObjectId[] | ITask[];
+}
+
 export interface ITask extends Document {
     title: string;
     description: string;
@@ -19,6 +24,7 @@ export interface ITask extends Document {
     priority: string;
     status: string;
     user: mongoose.Schema.Types.ObjectId;
+    categories: mongoose.Schema.Types.ObjectId[] | ICategories[];
 }
 
 export interface ITaskMethods {
@@ -41,6 +47,16 @@ export interface INewTask {
     deadline: Date;
     priority: PriorityEnum;
     status: StatusEnum;
+    categories: string[]
 }
 
 export interface ITaskUpdateFrom extends Partial<INewTask> { }
+
+export interface ISearchBuilderJson {
+    title?: string
+    description?: string
+    priority?: PriorityEnum
+    status?: StatusEnum
+    categories?: string[]
+    sortBy: 'priority' | 'deadline'
+}
