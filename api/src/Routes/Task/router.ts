@@ -39,7 +39,6 @@ publicTaskRouter.get("/category/list/:skip/:limit", MakeErrorHandler(
     }
 ))
 
-
 publicTaskRouter.use("/task", publicTaskRouter);
 privateTaskRouter.use("/task", privateTaskRouter);
 
