@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Typography, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from '@mui/material';
+import { List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Typography, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Select, MenuItem } from '@mui/material';
 import { Add, Delete, Edit, Logout } from '@mui/icons-material';
 import { ITask, PriorityEnum, StatusEnum } from '../../features/types/task.type';
 import { useCategoriesQuery, useRemoveTaskMutation, useSearchTasksQuery, useUpdateTaskMutation } from '../../features/slices/task.slice';
@@ -114,6 +114,7 @@ function UpdateDialog({ task, open, handleClose }: { handleClose: () => void, op
     }, [task]);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
+        console.log(name, value);
         setUpdatedTask({ ...updatedTask, [name]: value as any } as any);
     }
 
@@ -135,6 +136,7 @@ function UpdateDialog({ task, open, handleClose }: { handleClose: () => void, op
 
         }
     }
+
     return (
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Edit Task</DialogTitle>
@@ -169,38 +171,36 @@ function UpdateDialog({ task, open, handleClose }: { handleClose: () => void, op
                     value={updatedTask ? new Date(updatedTask.deadline).toISOString().split('T')[0] : ''}
                     onChange={handleInputChange}
                 />
-                <TextField
+                <Select
                     margin="dense"
                     id="priority"
                     name="priority"
-                    select
                     label="Priority"
                     fullWidth
-                    value={updatedTask?.priority}
-                    onChange={handleInputChange}
+                    value={updatedTask?.priority || PriorityEnum.low}
+                    onChange={handleInputChange as any}
                 >
                     {Object.values(PriorityEnum).map((priority) => (
-                        <option key={priority} value={priority.toString()}>
+                        <MenuItem key={priority.toString()} value={priority.toString()}>
                             {priority}
-                        </option>
+                        </MenuItem>
                     ))}
-                </TextField>
-                <TextField
+                </Select>
+                <Select
                     margin="dense"
                     id="status"
                     name="status"
-                    select
                     label="Status"
                     fullWidth
-                    value={updatedTask?.status}
-                    onChange={handleInputChange}
+                    value={updatedTask?.status || StatusEnum.pending}
+                    onChange={handleInputChange as any}
                 >
                     {Object.values(StatusEnum).map((status) => (
-                        <option key={status} value={status.toString()}>
+                        <MenuItem key={status.toString()} value={status.toString()}>
                             {status}
-                        </option>
+                        </MenuItem>
                     ))}
-                </TextField>
+                </Select>
                 <TextField
                     margin="dense"
                     id="categories"
