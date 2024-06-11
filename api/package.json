@@ -30,9 +30,8 @@
   },
   "scripts": {
     "dev": "set NODE_ENV=development && nodemon src/server.ts",
-    "build": "set NODE_ENV=production && tsc",
-    "start": "set NODE_ENV=production && node src/server.ts",
-    "production": "set NODE_ENV=production && nodemon src/server.ts"
+    "build": "set NODE_ENV=production && npm i && tsc",
+    "start": "set NODE_ENV=production && node dist/server.js"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.1",
