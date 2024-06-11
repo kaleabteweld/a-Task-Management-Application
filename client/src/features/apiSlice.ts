@@ -10,7 +10,7 @@ export const setAccessToken = (token: string) => {
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
-    endpoints: (builder) => ({
+    endpoints: () => ({
     }),
 
 });

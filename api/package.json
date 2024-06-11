@@ -29,12 +29,9 @@
     "typescript": "^5.4.2"
   },
   "scripts": {
-    "contracts-deploy": "npx hardhat run scripts/deploy.ts",
-    "contracts-test": "npx hardhat test",
-    "contracts-compile": "npx hardhat compile",
-    "api-test": "jest",
-    "contracts-test-coverage": "npx hardhat coverage",
     "dev": "set NODE_ENV=development && nodemon src/server.ts",
+    "build": "set NODE_ENV=production && tsc",
+    "start": "set NODE_ENV=production && node src/server.ts",
     "production": "set NODE_ENV=production && nodemon src/server.ts"
   },
   "dependencies": {
