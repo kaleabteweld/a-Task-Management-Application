@@ -8,11 +8,10 @@ import {
     Button,
     MenuItem
 } from "@mui/material";
-import { useCategoriesQuery, useCreateTaskMutation } from "../../features/slices/task.slice";
-import { PriorityEnum, StatusEnum, ICategories, INewTask } from "../../features/types/task.type";
+import { useCreateTaskMutation } from "../../features/slices/task.slice";
+import { PriorityEnum, StatusEnum, INewTask } from "../../features/types/task.type";
 
 function CreateDialog({ open, handleClose }: { handleClose: () => void, open: boolean }) {
-    const { data: categories } = useCategoriesQuery({ limit: 10, skip: 0 });
     const [createTask] = useCreateTaskMutation();
     const [newTask, setNewTask] = useState<INewTask>({
         title: '',
@@ -105,23 +104,6 @@ function CreateDialog({ open, handleClose }: { handleClose: () => void, open: bo
                     {Object.values(StatusEnum).map((status) => (
                         <MenuItem key={status} value={status}>
                             {status}
-                        </MenuItem>
-                    ))}
-                </TextField>
-                <TextField
-                    margin="dense"
-                    id="categories"
-                    name="categories"
-                    label="Categories"
-                    fullWidth
-                    select
-                    SelectProps={{ multiple: true }}
-                    value={newTask.categories}
-                    onChange={(e) => setNewTask({ ...newTask, categories: e.target.value as any } as any)}
-                >
-                    {categories?.map((category: ICategories) => (
-                        <MenuItem key={category.name} value={category.name}>
-                            {category.name}
                         </MenuItem>
                     ))}
                 </TextField>

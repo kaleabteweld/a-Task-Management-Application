@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Typography, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Select, MenuItem } from '@mui/material';
 import { Add, Delete, Edit, Logout } from '@mui/icons-material';
 import { ITask, PriorityEnum, StatusEnum } from '../../features/types/task.type';
-import { useCategoriesQuery, useRemoveTaskMutation, useSearchTasksQuery, useUpdateTaskMutation } from '../../features/slices/task.slice';
+import { useRemoveTaskMutation, useSearchTasksQuery, useUpdateTaskMutation } from '../../features/slices/task.slice';
 import { UserIsLoggedIn } from '../../hook/user.hook';
 import CreateDialog from './CreateDialog';
 import SearchIcon from '@mui/icons-material/Search';
@@ -105,7 +105,6 @@ export default function Home() {
 
 function UpdateDialog({ task, open, handleClose }: { handleClose: () => void, open: boolean, task?: ITask | null | undefined }) {
 
-    const { data: categories } = useCategoriesQuery({ limit: 10, skip: 0 });
     const [updateTask] = useUpdateTaskMutation();
     const [updatedTask, setUpdatedTask] = React.useState<ITask | null | undefined>(task);
 
@@ -201,15 +200,6 @@ function UpdateDialog({ task, open, handleClose }: { handleClose: () => void, op
                         </MenuItem>
                     ))}
                 </Select>
-                <TextField
-                    margin="dense"
-                    id="categories"
-                    name="categories"
-                    label="Categories"
-                    fullWidth
-                    value={categories?.map((category) => category.name).join(', ')}
-                    onChange={handleInputChange}
-                />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
