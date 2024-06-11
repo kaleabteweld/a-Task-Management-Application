@@ -25,7 +25,7 @@ const tasksApiSlice = apiSlice.injectEndpoints({
             }),
             transformResponse: (response: any) => response.data
         }),
-        searchTasks: builder.query<ITask, Partial<INewTask>>({
+        searchTasks: builder.query<ITask[], Partial<INewTask>>({
             query: (searchParams) => ({
                 url: 'private/task/search',
                 method: 'POST',
@@ -36,7 +36,7 @@ const tasksApiSlice = apiSlice.injectEndpoints({
             }),
             transformResponse: (response: any) => response.data
         }),
-        categories: builder.query<ICategories, { skip: number; limit: number }>({
+        categories: builder.query<ICategories[], { skip: number; limit: number }>({
             query: ({ skip, limit }) => ({
                 url: `private/task/category/list/${skip}/${limit}`,
                 method: 'GET',

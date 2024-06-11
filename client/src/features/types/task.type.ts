@@ -23,6 +23,7 @@ export interface ICategories extends Document {
 }
 
 export interface ITask extends Document {
+    _id: string;
     title: string;
     description: string;
     deadline: Date;

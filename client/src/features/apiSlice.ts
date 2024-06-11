@@ -9,7 +9,7 @@ export const setAccessToken = (token: string) => {
 };
 export const apiSlice = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL, credentials: 'include', mode: 'cors' }),
     endpoints: () => ({
     }),
 

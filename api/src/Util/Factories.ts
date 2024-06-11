@@ -2,6 +2,7 @@ import express from "express";
 import appRouter from "../Routes";
 import { errorMiddleWare } from "./middlewares";
 import helmet from "helmet";
+import cors from 'cors';
 
 
 export function makeServer() {
@@ -17,6 +18,8 @@ export function makeServer() {
         console.log("[->] ", req.method, req.url);
         next();
     })
+
+    app.use(cors())
 
 
     app.use(appRouter);
