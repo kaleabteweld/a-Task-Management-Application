@@ -9,7 +9,7 @@ import CategoriesController from "./categories.controller";
 const publicTaskRouter = express.Router();
 const privateTaskRouter = express.Router();
 
-privateTaskRouter.get("/:page", userOnly, MakeErrorHandler(
+privateTaskRouter.post("/search/:page", userOnly, MakeErrorHandler(
     async (req: any, res: Response) => {
         const _user: IUser = req['user'];
         const page = Number(req.params.page);
@@ -21,6 +21,13 @@ privateTaskRouter.post("/create", userOnly, MakeErrorHandler(
     async (req: any, res: Response) => {
         const _user: IUser = req['user'];
         res.json(await taskController.create(req.body, _user));
+    }
+));
+
+privateTaskRouter.patch("/update", userOnly, MakeErrorHandler(
+    async (req: any, res: Response) => {
+        const _user: IUser = req['user'];
+        res.json(await taskController.update(req.body, _user.id));
     }
 ));
 

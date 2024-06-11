@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { ICategories, ITask, ITaskMethods, ITaskModel, PriorityEnum, StatusEnum } from "./task.types";
 import { getById, removeByID, update, validator } from "./task.extended";
+import { IUser } from "../User/user.type";
+import { mongooseErrorPlugin } from "../Middleware/errors.middleware";
 
 const categorySchema = new mongoose.Schema<ICategories>({
     name: { type: String, required: true, unique: true },
@@ -28,5 +30,20 @@ const taskSchema = new mongoose.Schema<ITask, ITaskModel, ITaskMethods>({
     }
 });
 
+taskSchema.post('save', async function (doc) {
+    try {
+        const user = await mongoose.model('User').findById(doc.user);
+        if (user) {
+            if (!user.tasks.includes(doc._id as any)) {
+                user.tasks.push(doc._id as any);
+                await user.save();
+            }
+        }
+    } catch (error) {
+        console.error("Error updating tasks on User:", error);
+    }
+});
+
+taskSchema.plugin<any>(mongooseErrorPlugin);
 const TaskModel = mongoose.model<ITask, ITaskModel>('Task', taskSchema);
 export default TaskModel;
