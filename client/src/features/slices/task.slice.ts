@@ -60,4 +60,4 @@ const tasksApiSlice = apiSlice.injectEndpoints({
     }),
 })
 
-export const { useCreateTaskMutation, useUpdateTaskMutation, useSearchTasksQuery, useCategoriesQuery, useRemoveTaskMutation } = tasksApiSlice
+export const { useCreateTaskMutation, useUpdateTaskMutation, useSearchTasksQuery, useCategoriesQuery, useRemoveTaskMutation, useLazySearchTasksQuery } = tasksApiSlice

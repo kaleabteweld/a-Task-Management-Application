@@ -8,6 +8,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import UserLoginPage from './page/login/user.LoginPage.tsx';
 import Home from './page/home/index.tsx';
 import UserSignUpPage from './page/SignUp/index.tsx';
+import SearchComponent from './page/home/search.tsx';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />
+  },
+  {
+    path: "/search",
+    element: <SearchComponent />
   },
   {
     path: "/signup",

@@ -5,6 +5,8 @@ import { ITask, PriorityEnum, StatusEnum } from '../../features/types/task.type'
 import { useCategoriesQuery, useRemoveTaskMutation, useSearchTasksQuery, useUpdateTaskMutation } from '../../features/slices/task.slice';
 import { UserIsLoggedIn } from '../../hook/user.hook';
 import CreateDialog from './CreateDialog';
+import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
 
@@ -15,6 +17,8 @@ export default function Home() {
     const [open, setOpen] = useState(false);
     const [CreateOpen, setCreateOpen] = useState(false);
     const [updatedTask, setUpdatedTask] = useState<ITask | null>(null);
+
+    const navigate = useNavigate()
 
     const handleOpen = (task: ITask) => {
         setUpdatedTask(task);
@@ -30,6 +34,13 @@ export default function Home() {
         <List>
             <UpdateDialog task={updatedTask} handleClose={handleClose} open={open} />
             <CreateDialog open={CreateOpen} handleClose={() => setCreateOpen(false)} />
+
+            <IconButton onClick={() => {
+                navigate('/search')
+            }} color="inherit">
+                <SearchIcon />
+            </IconButton>
+
 
             <IconButton edge="end" aria-label="delete" onClick={() => setCreateOpen(true)}>
                 <Add />
