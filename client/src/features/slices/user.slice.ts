@@ -12,8 +12,11 @@ const userApiSlice = apiSlice.injectEndpoints({
                     email,
                     password
                 }
-
             }),
+            extraOptions: {
+                withCredentials: true,
+                crossDomain: true,
+            }
 
         }),
 

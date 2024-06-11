@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Typography, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from '@mui/material';
-import { Delete, Edit } from '@mui/icons-material';
+import { Edit } from '@mui/icons-material';
 import { ITask, PriorityEnum, StatusEnum } from '../../features/types/task.type';
 import { useCategoriesQuery, useSearchTasksQuery, useUpdateTaskMutation } from '../../features/slices/task.slice';
 
 export default function Home() {
 
-    const { data: tasks, isLoading } = useSearchTasksQuery({});
+    const { data: tasks } = useSearchTasksQuery({});
 
     const [open, setOpen] = useState(false);
     const [updatedTask, setUpdatedTask] = useState<ITask | null>(null);

@@ -36,7 +36,7 @@ const UserLoginPage = () => {
     return (
         <div className="flex h-svh">
             <div className="w-1/2 bg-black flex flex-col gap-8 items-center justify-center">
-                <h1 className="text-white text-8xl font-bold">T-Movie</h1>
+                <h1 className="text-white text-8xl font-bold">login</h1>
             </div>
 
             <div className="flex flex-col items-center p-6 gap-8 w-1/2 border-2 justify-center">
