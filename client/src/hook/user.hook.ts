@@ -10,7 +10,7 @@ export const UserIsLoggedIn = () => {
 
     useEffect(() => {
         if (error) {
-            navigate('/userLogin');
+            navigate('/login');
         }
     }, [error]);
 };

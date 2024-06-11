@@ -12,7 +12,8 @@ const tasksApiSlice = apiSlice.injectEndpoints({
                     authorization: `Bearer ${(getAccessToken())}`
                 }
             }),
-            transformResponse: (response: any) => response.data
+            transformResponse: (response: any) => response.body,
+            invalidatesTags: ['tasks']
         }),
         updateTask: builder.mutation<void, { id: string; task: Partial<INewTask> }>({
             query: ({ id, task }) => ({
@@ -23,27 +24,40 @@ const tasksApiSlice = apiSlice.injectEndpoints({
                     authorization: `Bearer ${(getAccessToken())}`
                 }
             }),
-            transformResponse: (response: any) => response.data
+            transformResponse: (response: any) => response.body,
+            invalidatesTags: ['tasks']
+
         }),
-        searchTasks: builder.query<ITask[], Partial<INewTask>>({
-            query: (searchParams) => ({
-                url: 'private/task/search',
+        searchTasks: builder.query<ITask[], { page: number, searchParams: Partial<INewTask> }>({
+            query: ({ searchParams, page }) => ({
+                url: `private/task/search/${page}`,
                 method: 'POST',
                 body: searchParams,
                 headers: {
                     authorization: `Bearer ${(getAccessToken())}`
                 }
             }),
-            transformResponse: (response: any) => response.data
+            transformResponse: (response: any) => response.body,
+            providesTags: ['tasks']
+        }),
+        removeTask: builder.mutation<void, string>({
+            query: (id) => ({
+                url: `private/task/delete/${id}`,
+                method: 'DELETE',
+                headers: {
+                    authorization: `Bearer ${(getAccessToken())}`
+                }
+            }),
+            invalidatesTags: ['tasks']
         }),
         categories: builder.query<ICategories[], { skip: number; limit: number }>({
             query: ({ skip, limit }) => ({
-                url: `private/task/category/list/${skip}/${limit}`,
+                url: `public/task/category/list/${skip}/${limit}`,
                 method: 'GET',
             }),
-            transformResponse: (response: any) => response.data
+            transformResponse: (response: any) => response.body
         })
     }),
 })
 
-export const { useCreateTaskMutation, useUpdateTaskMutation, useSearchTasksQuery, useCategoriesQuery } = tasksApiSlice
+export const { useCreateTaskMutation, useUpdateTaskMutation, useSearchTasksQuery, useCategoriesQuery, useRemoveTaskMutation } = tasksApiSlice

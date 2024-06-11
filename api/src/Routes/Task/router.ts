@@ -39,6 +39,14 @@ publicTaskRouter.get("/category/list/:skip/:limit", MakeErrorHandler(
     }
 ))
 
+privateTaskRouter.delete("/delete/:taskId", userOnly, MakeErrorHandler(
+    async (req: any, res: Response) => {
+        const _user: IUser = req['user'];
+        const { taskId } = req.params;
+        res.json(await taskController.removeById(taskId, _user));
+    }
+));
+
 publicTaskRouter.use("/task", publicTaskRouter);
 privateTaskRouter.use("/task", privateTaskRouter);
 

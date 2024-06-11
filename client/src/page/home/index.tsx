@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Typography, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from '@mui/material';
-import { Edit } from '@mui/icons-material';
+import { Add, Delete, Edit } from '@mui/icons-material';
 import { ITask, PriorityEnum, StatusEnum } from '../../features/types/task.type';
-import { useCategoriesQuery, useSearchTasksQuery, useUpdateTaskMutation } from '../../features/slices/task.slice';
+import { useCategoriesQuery, useRemoveTaskMutation, useSearchTasksQuery, useUpdateTaskMutation } from '../../features/slices/task.slice';
+import { UserIsLoggedIn } from '../../hook/user.hook';
+import CreateDialog from './CreateDialog';
 
 export default function Home() {
 
-    const { data: tasks } = useSearchTasksQuery({});
+    UserIsLoggedIn();
+    const { data: tasks } = useSearchTasksQuery({ page: 1, searchParams: {} });
+    const [remove] = useRemoveTaskMutation();
 
     const [open, setOpen] = useState(false);
+    const [CreateOpen, setCreateOpen] = useState(false);
     const [updatedTask, setUpdatedTask] = useState<ITask | null>(null);
 
     const handleOpen = (task: ITask) => {
@@ -24,6 +29,11 @@ export default function Home() {
     return (
         <List>
             <UpdateDialog task={updatedTask} handleClose={handleClose} open={open} />
+            <CreateDialog open={CreateOpen} handleClose={() => setCreateOpen(false)} />
+
+            <IconButton edge="end" aria-label="delete" onClick={() => setCreateOpen(true)}>
+                <Add />
+            </IconButton>
 
             {tasks && tasks.map((task: ITask) => (
                 <ListItem key={task._id}>
@@ -57,11 +67,15 @@ export default function Home() {
                         <IconButton edge="end" aria-label="edit" onClick={() => handleOpen(task)}>
                             <Edit />
                         </IconButton>
-                        {/* <IconButton edge="end" aria-label="delete" onClick={() => onDelete(task._id)}>
+                        <IconButton edge="end" aria-label="edit" onClick={() => {
+                            remove(task._id);
+                        }}>
                             <Delete />
-                        </IconButton> */}
+                        </IconButton>
+
                     </ListItemSecondaryAction>
                 </ListItem>
+
             ))}
         </List>
 
@@ -73,6 +87,10 @@ function UpdateDialog({ task, open, handleClose }: { handleClose: () => void, op
     const { data: categories } = useCategoriesQuery({ limit: 10, skip: 0 });
     const [updateTask] = useUpdateTaskMutation();
     const [updatedTask, setUpdatedTask] = React.useState<ITask | null | undefined>(task);
+
+    useEffect(() => {
+        setUpdatedTask(task);
+    }, [task]);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setUpdatedTask({ ...updatedTask, [name]: value as any } as any);
@@ -81,7 +99,15 @@ function UpdateDialog({ task, open, handleClose }: { handleClose: () => void, op
     const handleUpdate = async () => {
         try {
             delete (updatedTask as any)["_id"];
-            await updateTask({ id: task?._id ?? "", task: updatedTask as any }).unwrap();
+            await updateTask({
+                id: task?._id ?? "", task: {
+                    title: updatedTask?.title,
+                    description: updatedTask?.description,
+                    deadline: updatedTask?.deadline,
+                    priority: updatedTask?.priority as any,
+                    status: updatedTask?.status as any,
+                }
+            }).unwrap();
             handleClose();
         } catch (error) {
             console.log(error);

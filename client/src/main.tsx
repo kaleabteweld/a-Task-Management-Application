@@ -7,6 +7,7 @@ import { store } from './features/store.ts';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import UserLoginPage from './page/login/user.LoginPage.tsx';
 import Home from './page/home/index.tsx';
+import UserSignUpPage from './page/SignUp/index.tsx';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <Home />
   },
+  {
+    path: "/signup",
+    element: <UserSignUpPage />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

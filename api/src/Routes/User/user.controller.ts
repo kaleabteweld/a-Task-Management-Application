@@ -17,7 +17,7 @@ export default class UserController {
         await user.save();
         const { accessToken, refreshToken } = await MakeTokens(user.toJSON(), UserType.user);
 
-        return { body: user.toJSON() as any, header: { accessToken, refreshToken } }
+        return { body: { ...user!.toJSON() as any, accessToken }, header: { accessToken, refreshToken } }
     }
 
     static async logIn(from: IUserLogInFrom): Promise<IResponseWithHeaderType<IUser>> {
@@ -26,7 +26,7 @@ export default class UserController {
         await user!.checkPassword(from.password);
 
         const { accessToken, refreshToken } = await MakeTokens(user!.toJSON(), UserType.user);
-        return { body: user!.toJSON() as any, header: { accessToken, refreshToken } }
+        return { body: { ...user!.toJSON() as any, accessToken }, header: { accessToken, refreshToken } }
 
     }
 
@@ -53,7 +53,7 @@ export default class UserController {
     }
 
     static async getById(user: IUser): Promise<IResponseType<IUser | null>> {
-        return { body: ((await UserModel.getById(user.id ?? ""))?.toJSON() as any) };
+        return { body: ((await UserModel.getById(user._id ?? "" as any))?.toJSON() as any) };
     }
 
     static async removeById(userId: string, user: IUser): Promise<IResponseType<{} | null>> {

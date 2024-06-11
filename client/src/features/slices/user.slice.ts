@@ -1,4 +1,4 @@
-import apiSlice from "../apiSlice";
+import apiSlice, { getAccessToken } from "../apiSlice";
 import { IUser, IUserLogInFrom } from "../types/user.type";
 
 const userApiSlice = apiSlice.injectEndpoints({
@@ -13,11 +13,6 @@ const userApiSlice = apiSlice.injectEndpoints({
                     password
                 }
             }),
-            extraOptions: {
-                withCredentials: true,
-                crossDomain: true,
-            }
-
         }),
 
         signUp: builder.mutation<IUser, IUserLogInFrom>({
@@ -32,6 +27,9 @@ const userApiSlice = apiSlice.injectEndpoints({
             query: () => ({
                 url: `private/user/`,
                 method: 'GET',
+                headers: {
+                    authorization: `Bearer ${(getAccessToken())}`
+                }
             }),
         }),
 
