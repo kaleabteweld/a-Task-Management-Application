@@ -24,10 +24,11 @@ privateTaskRouter.post("/create", userOnly, MakeErrorHandler(
     }
 ));
 
-privateTaskRouter.patch("/update", userOnly, MakeErrorHandler(
+privateTaskRouter.patch("/update/:taskId", userOnly, MakeErrorHandler(
     async (req: any, res: Response) => {
         const _user: IUser = req['user'];
-        res.json(await taskController.update(req.body, _user.id));
+        const { taskId } = req.params;
+        res.json(await taskController.update(req.body, taskId, _user));
     }
 ));
 

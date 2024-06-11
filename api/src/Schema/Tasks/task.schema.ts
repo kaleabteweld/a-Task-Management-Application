@@ -20,6 +20,7 @@ const taskSchema = new mongoose.Schema<ITask, ITaskModel, ITaskMethods>({
     priority: { type: String, enum: Object.values(PriorityEnum), required: true },
     status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.pending },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
 }, {
     timestamps: true,
     statics: {

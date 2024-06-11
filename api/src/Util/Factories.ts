@@ -2,9 +2,6 @@ import express from "express";
 import appRouter from "../Routes";
 import { errorMiddleWare } from "./middlewares";
 import helmet from "helmet";
-import passport from "passport";
-import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
-import googleStrategy from "../Routes/Authentication/passport-config";
 
 
 export function makeServer() {
@@ -20,10 +17,6 @@ export function makeServer() {
         console.log("[->] ", req.method, req.url);
         next();
     })
-
-    passport.use(googleStrategy);
-
-    app.use(passport.initialize());
 
 
     app.use(appRouter);

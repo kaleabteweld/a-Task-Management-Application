@@ -66,7 +66,7 @@ export async function update(this: mongoose.Model<ITask>, _id: string, newTask: 
                 type: "Validation"
             }, "_id")
         }
-        return result;
+        return result.populate('categories');
     } catch (error) {
         if (error instanceof BSONError) {
             throw ValidationErrorFactory({

@@ -20,11 +20,11 @@ export default class TaskController {
         return { body: Task.toJSON() as any }
     }
 
-    static async update(_task: ITaskUpdateFrom, taskId: string): Promise<IResponseType<ITask | null>> {
+    static async update(_task: ITaskUpdateFrom, taskId: string, user: IUser): Promise<IResponseType<ITask | null>> {
 
+        await UserModel.getById(user._id as any);
         await TaskModel.validator(_task, taskUpdateSchema)
-        const Task = await TaskModel.getById(taskId);
-        const updateTask = await TaskModel.update(Task.id, _task)
+        const updateTask = await TaskModel.update(taskId, _task)
         return { body: (updateTask as any).toJSON() }
     }
 
@@ -42,8 +42,8 @@ export default class TaskController {
     }
 
     static async search(json: any, page: number, user: IUser): Promise<IResponseType<ITask[] | null>> {
-        const query = TaskSearchBuilder.fromJSON(json).withPage(page).byUser(user._id as any);
-        return { body: ((await query?.exec())) as any };
+        const query = TaskSearchBuilder.fromJSON(json).byUser(user._id as any);
+        return { body: ((await query?.exec(page))) as any };
     }
 
 }

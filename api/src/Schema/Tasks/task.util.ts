@@ -78,16 +78,10 @@ export default class TaskSearchBuilder {
         return this;
     }
 
-    withPage(page: number) {
-        this.query.skip = (page - 1) * 10;
-        this.query.limit = 10;
-        return this;
-    }
-
-    async exec() {
+    async exec(page: number) {
         const sortQuery = this.query.sort;
         delete this.query.sort;
 
-        return await TaskModel.find(this.query).sort(sortQuery);
+        return await TaskModel.find(this.query).sort(sortQuery).skip((page - 1) * 10).limit(10).populate('categories');
     }
 }
